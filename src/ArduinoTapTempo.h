@@ -2,26 +2,26 @@
  * ArduinoTapTempo.h
  * An Arduino library that times consecutive button presses to calculate Beats Per Minute. Corrects for missed beats and can reset phase with single taps. *
  * Copyright (c) 2016 Damien Clarke
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.  
+ * SOFTWARE.
  */
- 
+
 #ifndef ARDUINO_TAP_TEMPO_H
 #define ARDUINO_TAP_TEMPO_H
 
@@ -54,7 +54,7 @@ class ArduinoTapTempo
     inline void disableSkippedTapDetection() { skippedTapDetection = false; }
     void setSkippedTapThresholdLow(float threshold); // This sets the lower threshold, accepts a float from 1.0 to 2.0.
     void setSkippedTapThresholdHigh(float threshold); // This sets the upper threshold, accepts a float from 2.0 to 4.0.
-    void setBeatsUntilChainReset(int beats); // The current chain of taps will finish this many beats after the most recent tap, accepts an int greater than 1 
+    void setBeatsUntilChainReset(int beats); // The current chain of taps will finish this many beats after the most recent tap, accepts an int greater than 1
     void setTotalTapValues(int total); // Sets the maximum number of most recent taps that will be averaged out to calculate the tempo, accepts int from 2 to MAX_TAP_VALUES
     // increasing this allows the tempo to be more accurate compared to your tapping, but slower to respond to gradual changes in tapping speed.
     inline void setMaxBeatLengthMS(unsigned long ms) { maxBeatLengthMS = ms; } // Sets the maximum beat length permissible.
@@ -65,7 +65,8 @@ class ArduinoTapTempo
     // This is another way of setting the minimum beat length.
     inline void setMinBPM(float bpm) { maxBeatLengthMS = 60000.0 / bpm; } // Sets the maximum beats per minute permissible.
     // This is another way of setting the maximum beat length.
-
+    void setBeatLengthMS(unsigned long blms) { beatLengthMS = blms; }
+    void setBPM( float bpm ) { beatLengthMS = 60000.0 / bpm; }
 
   private:
     // config
@@ -84,7 +85,7 @@ class ArduinoTapTempo
     unsigned long millisSinceResetOld = 0;
     unsigned long beatLengthMS = 500;
     unsigned long lastResetMS = millis();
-    
+
     // taps
     unsigned long lastTapMS = 0;
     unsigned long tapDurations[ArduinoTapTempo::MAX_TAP_VALUES];
